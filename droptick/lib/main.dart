@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:droptick/estadisticas.dart';
 import 'package:droptick/home.dart';
+import 'package:droptick/tickets.dart';
 
 void main() => runApp(const MyApp());
 
@@ -13,16 +14,41 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _paginaActual = 0;
-  List<Widget> _paginas = [
-    PaginaEstadisticas(),
-    PaginaHome(),
+  List<String> _titolsPagines = [
+    "Home",
+    "Tickets",
+    "Estadisticas",
   ];
+  List<Widget> _paginas = [
+    PaginaHome(),
+    PaginaTickets(),
+    PaginaEstadisticas(),
+  ];
+
+  List<Widget> _iconos = [
+    Icon(Icons.home),
+    Icon(Icons.list),
+    Icon(Icons.pie_chart)
+  ];
+
+  String icona1 = "Icons.home";
+
+  int paginaSeguent(int paginaActual) {
+    int numeroARetornar;
+    if (paginaActual == 2) {
+      numeroARetornar = 0;
+    } else {
+      numeroARetornar = paginaActual + 1;
+    }
+    return numeroARetornar;
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Tickets",
+          title: Text(_titolsPagines[_paginaActual],
               style: TextStyle(
                 fontFamily: "OpenSans",
                 fontSize: 24.0,
@@ -34,21 +60,28 @@ class _MyAppState extends State<MyApp> {
         body: _paginas[_paginaActual],
         backgroundColor: Colors.grey[300],
         bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _paginaActual,
+            currentIndex: 0,
             onTap: (index) {
               setState(() {
-                _paginaActual = index;
+                if (index == 0) {
+                  print("pagina actual: ${_paginaActual} ");
+                  _paginaActual = paginaSeguent(_paginaActual);
+                  print("cambiamos a pagina: ${_paginaActual} ");
+                } else {
+                  _paginaActual = paginaSeguent(paginaSeguent(_paginaActual));
+                }
               });
             },
-            selectedItemColor: Colors.green[800],
+            selectedItemColor: Colors.grey[700],
             items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.pie_chart),
-                label: "Estadísticas",
+                icon: _iconos[paginaSeguent(_paginaActual)],
+                label: _titolsPagines[paginaSeguent(_paginaActual)],
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: "Home",
+                icon: _iconos[paginaSeguent(paginaSeguent(_paginaActual))],
+                label:
+                    _titolsPagines[paginaSeguent(paginaSeguent(_paginaActual))],
               ),
             ]),
       ),
