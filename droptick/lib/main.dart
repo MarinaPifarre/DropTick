@@ -14,34 +14,25 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _paginaActual = 0;
+  int _index = 0;
   List<String> _titolsPagines = [
-    "Home",
     "Tickets",
     "Estadisticas",
+    "Home",
   ];
   List<Widget> _paginas = [
-    PaginaHome(),
     PaginaTickets(),
     PaginaEstadisticas(),
+    PaginaHome(),
   ];
 
   List<Widget> _iconos = [
-    Icon(Icons.home),
     Icon(Icons.list),
-    Icon(Icons.pie_chart)
+    Icon(Icons.pie_chart),
+    Icon(Icons.home),
   ];
 
-  String icona1 = "Icons.home";
-
-  int paginaSeguent(int paginaActual) {
-    int numeroARetornar;
-    if (paginaActual == 2) {
-      numeroARetornar = 0;
-    } else {
-      numeroARetornar = paginaActual + 1;
-    }
-    return numeroARetornar;
-  }
+  Color? _color = Colors.grey[700];
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +44,18 @@ class _MyAppState extends State<MyApp> {
                 fontFamily: "OpenSans",
                 fontSize: 24.0,
               )),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                setState(() {
+                  _paginaActual = 2;
+                  _index = 0;
+                  _color = Colors.grey[700];
+                });
+              },
+            )
+          ],
           centerTitle: true,
           backgroundColor: Color.fromRGBO(66, 146, 79, 1),
           elevation: 0.0,
@@ -60,28 +63,23 @@ class _MyAppState extends State<MyApp> {
         body: _paginas[_paginaActual],
         backgroundColor: Colors.grey[300],
         bottomNavigationBar: BottomNavigationBar(
-            currentIndex: 0,
+            currentIndex: _index,
             onTap: (index) {
               setState(() {
-                if (index == 0) {
-                  print("pagina actual: ${_paginaActual} ");
-                  _paginaActual = paginaSeguent(_paginaActual);
-                  print("cambiamos a pagina: ${_paginaActual} ");
-                } else {
-                  _paginaActual = paginaSeguent(paginaSeguent(_paginaActual));
-                }
+                _index = index;
+                _paginaActual = index;
+                _color = Color.fromRGBO(66, 146, 79, 1);
               });
             },
-            selectedItemColor: Colors.grey[700],
+            selectedItemColor: _color,
             items: [
               BottomNavigationBarItem(
-                icon: _iconos[paginaSeguent(_paginaActual)],
-                label: _titolsPagines[paginaSeguent(_paginaActual)],
+                icon: _iconos[0],
+                label: _titolsPagines[0],
               ),
               BottomNavigationBarItem(
-                icon: _iconos[paginaSeguent(paginaSeguent(_paginaActual))],
-                label:
-                    _titolsPagines[paginaSeguent(paginaSeguent(_paginaActual))],
+                icon: _iconos[1],
+                label: _titolsPagines[1],
               ),
             ]),
       ),
