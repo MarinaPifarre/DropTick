@@ -1,3 +1,4 @@
+import 'package:droptick/paginaListaTicket.dart';
 import 'package:flutter/material.dart';
 
 class PaginaTickets extends StatefulWidget {
@@ -10,6 +11,6 @@ class PaginaTickets extends StatefulWidget {
 class _PaginaTicketsState extends State<PaginaTickets> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Pagina Tickets"));
+    return paginaListaTicket();
   }
 }
