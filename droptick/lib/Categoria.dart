@@ -4,7 +4,9 @@ class Categoria {
   String nombre;
   Color color;
   Icon icona;
+
   Categoria(this.nombre, this.color, this.icona);
+
   static List<Categoria> getCategorias() {
     return [
       new Categoria('SUPERMERCADO', Colors.red,
